@@ -11,13 +11,13 @@
 
 typedef struct shmseg
 {
-   int pid;
-   int req;
-   long tab[maxval];
-   long result;
-} segment;
+   int pid;             /* Numero de pid du client*/
+   int req;             /* numero de requete */
+   long tab[maxval];    /* Tableau de valeurs */
+   long result;         /* resultat */
+} segment;  
 
-#define segsize sizeof(segment)
+#define segsize sizeof(segment)  
 
 void init_rand();
 long getrand();
