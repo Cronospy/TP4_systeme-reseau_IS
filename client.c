@@ -37,7 +37,7 @@ void init_client(void) {
 
 int main(void) {
     // 0. Récupère les identifiant du segment, des sémaphores et initialise le générateur.
-    int nb_req = 20;
+    int nb_req = 10;
     int mon_pid = getpid();
 
     init_client();
@@ -65,9 +65,11 @@ int main(void) {
         long moy_serveur = seg->result;
         int pid_recu = seg->pid;
         int req_recue = seg->req;
+
         lib_sem(semid, seg_init);
         
-        // 5. 
+        // 5. attendre la libération de res_ok 
+        wait_sem(semid, res_ok);
 
         // 6. Libérer seg_dispo pour les autres clients
         lib_sem(semid, seg_dispo);

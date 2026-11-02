@@ -1,10 +1,14 @@
 CC = gcc
 CFLAGS = -Wall -Wextra
 
-# Cible finale : créer l'exécutable "client"
-client: client.c segdef.h libseg.a
-	$(CC) $(CFLAGS) client.c -o client -L. -lseg
+client: client.c segdef.h libmylib_sem.a
+	$(CC) $(CFLAGS) client.c -o client -L. -lmylib_sem
 
-# Pour nettoyer les fichiers compilés (en tapant "make clean")
+libmylib_sem.a: mylib_sem.o
+	ar rcs libmylib_sem.a mylib_sem.o
+
+mylib_sem.o: mylib_sem.c segdef.h
+	$(CC) $(CFLAGS) -c mylib_sem.c -o mylib_sem.o
+
 clean:
-	rm -f client *.o
+	rm -f client *.o libmylib_sem.a
