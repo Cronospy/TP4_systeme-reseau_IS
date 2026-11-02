@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdbool.h>
 #include "segdef.h"
 
 #define NB_SEMAPHORE 3 
@@ -37,10 +38,17 @@ void init_client(void) {
 
 int main(void) {
     // 0. Récupère les identifiant du segment, des sémaphores et initialise le générateur.
-    int nb_req = 10;
-    int mon_pid = getpid();
+    int nb_req = 100;
 
     init_client();
+
+    fork();
+    fork();
+    fork();
+    fork();
+
+    int mon_pid = getpid();
+    init_rand();
 
     for (int req = 1; req <= nb_req; req++) {
         // 1. Demander à acquérir seg_dispo
@@ -75,9 +83,10 @@ int main(void) {
         lib_sem(semid, seg_dispo);
 
         // 7. Afficher les résultats comparés
+        bool is_ok = (moy_client == moy_serveur && pid_recu == mon_pid && req_recue == req);
         printf("[PID %d | Req %d] Client: %ld | Serveur: %ld -> %s\n",
                mon_pid, req, moy_client, moy_serveur,
-               (moy_client == moy_serveur && pid_recu == mon_pid && req_recue == req) ? "OK" : "ERREUR");
+                is_ok ? "OK" : "ERREUR");
     }
 
     // Détacher le segment mémoire
