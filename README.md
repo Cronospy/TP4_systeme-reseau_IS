@@ -1,4 +1,4 @@
-# TP3 IPC - Instructions d'exécution
+# TP3 IS - Système & Réseau 
 
 ## 1. Lancer le serveur (dans un autre terminal)
 ```bash
